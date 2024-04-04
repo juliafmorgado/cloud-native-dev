@@ -1,6 +1,6 @@
 # Challenge 1: Cloud Native Applications
 
-This repository contains a simple application for the challenge 1 created by Salaboy [here](https://github.com/salaboy/cloud-native-dev/tree/main/1).
+This repository contains a simple application for the challenge created by Salaboy [here](https://github.com/salaboy/cloud-native-dev/tree/main/1).
 
 ## Instructions
 

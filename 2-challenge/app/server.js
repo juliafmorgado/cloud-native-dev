@@ -1,8 +1,16 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
+const { Pool } = require('pg');
+
 const app = express();
 const PORT = 3000;
+
+// Configure PostgreSQL connection
+// Since you've not specified a username or password, we'll omit these fields.
+// This configuration assumes your PostgreSQL server allows you to connect using the default method.
+const pool = new Pool({
+  database: 'challenge2', // Ensure this database exists in your PostgreSQL server
+});
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -10,38 +18,27 @@ app.use(express.json());
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Define the file path for storing data
-const FILE_PATH = path.join(__dirname, 'texts.json');
-
-// Initialize the file with an empty array if it doesn't exist
-if (!fs.existsSync(FILE_PATH)) {
-  fs.writeFileSync(FILE_PATH, JSON.stringify([]), 'utf8');
-}
-
-// Helper function to read texts from file
-function readTextsFromFile() {
-  const fileContents = fs.readFileSync(FILE_PATH, 'utf8');
-  return JSON.parse(fileContents);
-}
-
-// Helper function to save texts to file
-function saveTextsToFile(texts) {
-  fs.writeFileSync(FILE_PATH, JSON.stringify(texts, null, 2), 'utf8');
-}
-
 // Endpoint to save text
-app.post('/save', (req, res) => {
+app.post('/save', async (req, res) => {
   const { text } = req.body;
-  const texts = readTextsFromFile();
-  texts.push(text);
-  saveTextsToFile(texts);
-  res.status(201).send({ message: 'Text saved successfully' });
+  try {
+    const result = await pool.query('INSERT INTO texts (content) VALUES ($1) RETURNING *', [text]);
+    res.status(201).send({ message: 'Text saved successfully', text: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Failed to save text' });
+  }
 });
 
 // Endpoint to get all texts
-app.get('/all', (req, res) => {
-  const texts = readTextsFromFile();
-  res.status(200).json(texts);
+app.get('/all', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM texts ORDER BY created_at DESC');
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Failed to retrieve texts' });
+  }
 });
 
 app.listen(PORT, () => {

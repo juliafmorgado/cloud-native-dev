@@ -3,6 +3,18 @@ Welcome to Challenge 2 of our Cloud Native Applications series!
 
 In this challenge, we will extend the application from [Challenge 1](https://github.com/salaboy/cloud-native-dev/tree/main/1) to store its data using two different approaches: file system storage and SQL database storage.
 
+## Prerequisites
+Before starting this challenge, make sure you have the following:
+
+- **Completed Challenge 1**
+- **Familiarity with Git branching:** How to create, switch, and merge branches so you can different versions of your project.
+- **File System Basics:** A basic understanding of how to read and write files using your programming language’s file system API (e.g., fs module in Node.js or equivalent in other languages).
+- **SQL Database Fundamentals:** A basic understanding of SQL and relational databases. You should be familiar with:
+    - Setting up a local or cloud-hosted SQL database (e.g., PostgreSQL, MySQL).
+    - Creating tables, inserting, and retrieving data using SQL queries.
+    - Configuring database connections within your application.
+- **Basic Terminal/Command Line Skills:** Ability to run commands in your terminal to manage Git branches, install packages, and interact with your SQL database.
+
 ## Objectives
 
 1. **File System Storage (Branch: fs):**
@@ -45,4 +57,4 @@ By completing Challenge 2, you will gain practical experience and insights into 
 - **Dependency Management:** Handle dependencies specific to your programming language and database system, ensuring compatibility and seamless integration.
 
 ## References
-- [Julia's Challenge 2 experience](https://www.juliafmorgado.com/posts/challenge-2-application-persistence-with-fs-sql-db/)
+- [Julia's Challenge 2 experience](https://www.juliafmorgado.com/posts/challenge-2-application-persistence-with-fs-and-sql-db/)
